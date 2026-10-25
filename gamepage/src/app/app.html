@@ -1,0 +1,129 @@
+<div class="page-shell">
+  <header class="topbar">
+    <a class="brand" href="#" aria-label="GG, página inicial">
+      <span class="brand-mark">G<span>G</span></span>
+      <span class="brand-name">GG<span class="brand-dot">.</span></span>
+    </a>
+
+    <nav class="main-nav" aria-label="Navegação principal">
+      <a class="nav-link active" href="#inicio">Início</a>
+      <a class="nav-link" href="#jogos">Explorar jogos</a>
+      <a class="nav-link" href="#comunidade">Comunidade</a>
+    </nav>
+
+    <div class="header-actions">
+      <label class="search-box">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"></circle><path d="m16 16 4 4"></path></svg>
+        <input type="search" placeholder="Buscar jogos..." aria-label="Buscar jogos" (input)="onSearch($event)">
+        <span class="search-shortcut">⌘ K</span>
+      </label>
+      <button class="avatar" type="button" aria-label="Perfil">A</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="inicio">
+      <div class="hero-content">
+        <div class="eyebrow"><span class="live-dot"></span> SEU PRÓXIMO UNIVERSO</div>
+        <h1>Jogue além<br>do <span>esperado.</span></h1>
+        <p>Novos mundos, grandes histórias e sua próxima obsessão. Tudo começa aqui.</p>
+        <div class="hero-buttons">
+          <a class="button button-primary" href="#jogos">
+            Explorar jogos
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"></path></svg>
+          </a>
+          <a class="button button-quiet" href="#comunidade">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2m6-10a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm12 10v-2a4 4 0 0 0-3-3.87m-1-11.13a4 4 0 0 1 0 7.75"></path></svg>
+            Conheça a comunidade
+          </a>
+        </div>
+        <div class="hero-social">
+          <div class="avatar-stack" aria-hidden="true"><span>J</span><span>M</span><span>L</span><span>+</span></div>
+          <span><strong>12 mil+</strong> jogadores online agora</span>
+        </div>
+      </div>
+      <div class="hero-art" role="img" aria-label="Paisagem fantástica sob um céu estrelado">
+        <div class="art-glow"></div>
+        <div class="hero-caption"><span>EM DESTAQUE</span><strong>O próximo grande jogo<br>está esperando por você.</strong></div>
+        <div class="hero-index">01 <i></i> 04</div>
+      </div>
+      <div class="hero-side-label">LEVEL UP YOUR WORLD</div>
+    </section>
+
+    <section class="games-section" id="jogos">
+      <div class="section-heading">
+        <div>
+          <div class="eyebrow section-eyebrow">CURADORIA GG <span class="heading-line"></span></div>
+          <h2>Encontre sua <span>próxima aventura</span></h2>
+        </div>
+        <a class="view-all" href="#jogos">Ver todos <span aria-hidden="true">↗</span></a>
+      </div>
+
+      <div class="game-tools">
+        <div class="category-tabs" aria-label="Filtrar por categoria">
+          @for (category of categories; track category) {
+            <button
+              class="category-tab"
+              [class.selected]="selectedCategory() === category"
+              [attr.aria-pressed]="selectedCategory() === category"
+              type="button"
+              (click)="selectedCategory.set(category)"
+            >{{ category }}</button>
+          }
+        </div>
+        <div class="sort-label"><span class="sort-dot"></span> Mais populares</div>
+      </div>
+
+      <div class="game-grid">
+        @for (game of games(); track game.id) {
+          <article class="game-card">
+            <div class="game-cover">
+              <img [src]="game.image" [alt]="'Capa de ' + game.title" loading="lazy">
+              @if (game.badge) {
+                <span class="game-badge">{{ game.badge }}</span>
+              }
+              <button
+                class="wishlist-button"
+                [class.wishlisted]="isWishlisted(game.id)"
+                [attr.aria-label]="isWishlisted(game.id) ? 'Remover ' + game.title + ' da lista' : 'Adicionar ' + game.title + ' à lista'"
+                [attr.aria-pressed]="isWishlisted(game.id)"
+                type="button"
+                (click)="toggleWishlist(game.id)"
+              >
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1.1L12 21l7.8-7.5 1.1-1.1a5.5 5.5 0 0 0-.1-7.8Z"></path></svg>
+              </button>
+              <span class="game-category">{{ game.category }}</span>
+            </div>
+            <div class="game-info">
+              <div class="game-title-row">
+                <h3>{{ game.title }}</h3>
+                <span class="game-rating"><span>★</span> {{ game.rating }}</span>
+              </div>
+              <div class="game-meta"><span>PC&nbsp; · &nbsp;Console</span><strong>{{ game.price }}</strong></div>
+            </div>
+          </article>
+        } @empty {
+          <div class="empty-state">
+            <span class="empty-icon">⌕</span>
+            <strong>Nenhum jogo encontrado</strong>
+            <span>Tente outro nome ou categoria.</span>
+          </div>
+        }
+      </div>
+    </section>
+
+    <section class="community-banner" id="comunidade">
+      <div class="community-icon">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 12h8m-4-4v8M4 7.5l2-2 2 2m10 0 2-2 2 2M4 16.5l2 2 2-2m10 0 2 2 2-2"></path></svg>
+      </div>
+      <div><span class="eyebrow">PARTIU JOGAR?</span><h2>Seu squad está te esperando.</h2></div>
+      <a class="button button-primary community-cta" href="#jogos">Entrar na comunidade <span>↗</span></a>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <a class="brand footer-brand" href="#inicio"><span class="brand-mark">G<span>G</span></span><span class="brand-name">GG<span class="brand-dot">.</span></span></a>
+    <span>Feito para quem vive o jogo.</span>
+    <span class="footer-copy">© 2026 GG Gaming</span>
+  </footer>
+</div>
